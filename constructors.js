@@ -11,12 +11,12 @@
  * @method   printDetails
  */
 function Spell(name, cost, description) {
-    this.name = name;
-    this.cost = cost;
-    this.description = description;
-    this.getDetails = function() {
-        return (this.name + " " + this.cost + " " + this.description);
-    };
+  this.name = name;
+  this.cost = cost;
+  this.description = description;
+  this.getDetails = function() {
+    return (this.name + " " + this.cost + " " + this.description);
+  };
 }
 /**
  * Returns a string of all of the spell's details.
@@ -29,8 +29,8 @@ function Spell(name, cost, description) {
 
 
 function DamageSpell(name, cost, damage, description) {
-    this.damage = damage;
-    Spell.call(this, name, cost, description);
+  this.damage = damage;
+  Spell.call(this, name, cost, description);
 }
 
 
@@ -85,37 +85,46 @@ var damage = new DamageSpell("Damage Spell", 23, 42, "Damage Spell.");
 Spellcaster.prototype = Object.create(DamageSpell.prototype);
 
 function Spellcaster(name, health, mana) {
-    this.name = name;
-    this.health = health;
-    this.mana = mana;
-    this.isAlive = true;
-    this.inflictDamage = function(damage) {
-        if (this.health <= damage) {
-            this.health -= damage;
-            this.health += 1;
-            this.isAlive = false;
-        } else {
-            this.health -= 1;
-            this.isAlive = true;
-        }
-    };
-    this.spendMana = function(cost) {
-    if (this.mana >= cost) {
-        this.mana -= cost;
-        this.mana -= 1;
-        return true;
+   this.name = name;
+   this.health = health;
+   this.mana = mana;
+   this.isAlive = true;
+   this.inflictDamage = function(damage) {
+         this.health -= damage;
+      if (this.health <= 0) {
+         this.health = 0;
+         this.isAlive = false;
+      } else {
+         this.isAlive = true;
+      }
+};
+   this.spendMana = function(cost) {
+      if (this.mana >= cost) {
+         this.mana -= cost;
+         return true;
+      } else {
+         return false;
+      }
+   };
+   this.invoke = function(spell, target) {
+    // If statement to fail function if ANY condition are not met
+    if (!(spell instanceof Spell)) {
+      return false;
     }
-    else {
-        return false;
-        }
-    };
-    this.invoke = function(invoke) {
-
-    };
+      if (spell instanceof DamageSpell) {
+         if (!(target instanceof Spellcaster) || this.mana < spell.cost){
+            return false;
+         }
+         target.inflictDamage(spell.damage);
+         console.log(target);
+         console.log(spell.damage);
+      }
+    if(!(this.spendMana(spell.cost))){
+      return false;
+      }
+      return true;
+   };
 }
-var gorgaroth = new Spellcaster("Gorgaroth: Famo of Yellow Minions", 300, 125);
-
-
 
 
 
