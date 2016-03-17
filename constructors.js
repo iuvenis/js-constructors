@@ -85,43 +85,6 @@ function Spellcaster(name, health, mana) {
    this.health = health;
    this.mana = mana;
    this.isAlive = true;
-   this.inflictDamage = function(damage) {
-         this.health -= damage;
-      if (this.health <= 0) {
-         this.health = 0;
-         this.isAlive = false;
-      } else {
-         this.isAlive = true;
-      }
-};
-   this.spendMana = function(cost) {
-      if (this.mana >= cost) {
-         this.mana -= cost;
-         return true;
-      } else {
-         return false;
-      }
-   };
-   this.invoke = function(spell, target) {
-    // If statement to fail function if ANY condition are not met
-    if (!(spell instanceof Spell)) {
-      return false;
-    }
-      if (spell instanceof DamageSpell) {
-         if (!(target instanceof Spellcaster) || this.mana < spell.cost){
-            return false;
-         }
-         target.inflictDamage(spell.damage);
-      }
-    if(!(this.spendMana(spell.cost))){
-      return false;
-      }
-      return true;
-   };
-}
-
-
-
 
 /**
  * @method inflictDamage
@@ -134,6 +97,16 @@ function Spellcaster(name, health, mana) {
  * @param  {number} damage  Amount of damage to deal to the spellcaster
  */
 
+this.inflictDamage = function(damage) {
+         this.health -= damage;
+      if (this.health <= 0) {
+         this.health = 0;
+         this.isAlive = false;
+      } else {
+         this.isAlive = true;
+      }
+};
+
 /**
  * @method spendMana
  *
@@ -143,6 +116,14 @@ function Spellcaster(name, health, mana) {
  * @param  {number} cost      The amount of mana to spend.
  * @return {boolean} success  Whether mana was successfully spent.
  */
+   this.spendMana = function(cost) {
+      if (this.mana >= cost) {
+         this.mana -= cost;
+         return true;
+      } else {
+         return false;
+      }
+   };
 
 /**
  * @method invoke
@@ -170,3 +151,21 @@ function Spellcaster(name, health, mana) {
  * @param  {Spellcaster} target         The spell target to be inflicted.
  * @return {boolean}                    Whether the spell was successfully cast.
  */
+
+   this.invoke = function(spell, target) {
+    // If statement to fail function if ANY condition are not met
+    if (!(spell instanceof Spell)) {
+      return false;
+    }
+      if (spell instanceof DamageSpell) {
+         if (!(target instanceof Spellcaster) || this.mana < spell.cost){
+            return false;
+         }
+         target.inflictDamage(spell.damage);
+      }
+    if(!(this.spendMana(spell.cost))){
+      return false;
+      }
+      return true;
+   };
+}
