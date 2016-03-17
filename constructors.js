@@ -112,8 +112,6 @@ function Spellcaster(name, health, mana) {
             return false;
          }
          target.inflictDamage(spell.damage);
-         console.log(target);
-         console.log(spell.damage);
       }
     if(!(this.spendMana(spell.cost))){
       return false;
