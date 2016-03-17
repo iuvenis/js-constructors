@@ -85,7 +85,7 @@ function Spellcaster(name, health, mana) {
    this.health = health;
    this.mana = mana;
    this.isAlive = true;
-
+}
 /**
  * @method inflictDamage
  *
@@ -168,4 +168,3 @@ this.inflictDamage = function(damage) {
       }
       return true;
    };
-}
