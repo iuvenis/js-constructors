@@ -62,10 +62,6 @@ function DamageSpell(name, cost, damage, description) {
 
 DamageSpell.prototype = Object.create(Spell.prototype);
 
-var damage = new DamageSpell("Damage Spell", 23, 42, "Damage Spell.");
-
-
-
 /**
  * Now that you've created some spells, let's create
  * `Spellcaster` objects that can use them!
